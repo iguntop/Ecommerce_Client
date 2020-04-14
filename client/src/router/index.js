@@ -2,19 +2,25 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Front from '../views/front.vue'
 import Home from '../views/home.vue'
+import Login from '../views/login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Front',
-    component: Front
+    name: 'Login',
+    component: Login
   },
   {
-    path: '/Home',
-    name: 'Front',
+    path: '/home',
+    name: 'Home',
     component: Home
+  },
+  {
+    path: '/front',
+    name: 'Front',
+    component: Front
   }
 ]
 
