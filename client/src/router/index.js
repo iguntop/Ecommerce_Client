@@ -1,27 +1,53 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Front from '../views/front.vue'
-import Home from '../views/home.vue'
-import Login from '../views/login.vue'
+import front from '../views/front.vue'
+import home from '../views/home.vue'
+// import Login from '../views/login.vue'
+import stock from '../components/stock_item.vue'
+import tabelStock from '@/components/stock_table.vue'
+import addForm from '@/components/add_form.vue'
+import category from '@/components/category.vue'
+import addFormCategory from '@/components/add_form_category.vue'
+import categoryTable from '@/components/category_table.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Login',
-    component: Login
+    name: 'Front',
+    component: front
   },
   {
     path: '/home',
     name: 'Home',
-    component: Home
-  },
-  {
-    path: '/front',
-    name: 'Front',
-    component: Front
+    component: home,
+    children: [{
+      path: 'stock',
+      component: stock,
+      children: [{
+        path: 'tabelstock',
+        component: tabelStock
+      },
+      {
+        path: 'addform',
+        component: addForm
+      }]
+    },
+    {
+      path: 'category',
+      component: category,
+      children: [{
+        path: 'addcategory',
+        component: addFormCategory
+      },
+      {
+        path: 'tablecategory',
+        component: categoryTable
+      }]
+    }]
   }
+
 ]
 
 const router = new VueRouter({

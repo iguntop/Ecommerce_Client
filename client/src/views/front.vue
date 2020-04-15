@@ -1,10 +1,13 @@
 <template>
-  <div>Frot page buat sign in dan sign up  </div>
+  <Login />
 </template>
-
 <script>
+import Login from '@/components/login.vue'
 export default {
-  name: 'Front'
+  name: 'Front',
+  components: {
+    Login
+  }
 }
 </script>
 

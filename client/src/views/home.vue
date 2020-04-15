@@ -1,33 +1,26 @@
 <template>
-  <div>
-    <b-button v-b-toggle.sidebar-no-header>Menu</b-button>
-    <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header shadow>
-      <template v-slot:default="{ hide }">
-        <div class="p-3">
-          <h4 id="sidebar-no-header-title">Custom header sidebar</h4>
-          <p>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-            in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-          </p>
-          <nav class="mb-3">
-            <b-nav vertical>
-              <b-nav-item active @click="hide">Active</b-nav-item>
-              <b-nav-item href="#link-1" @click="hide">Link</b-nav-item>
-              <b-nav-item href="#link-2" @click="hide">Another Link</b-nav-item>
-            </b-nav>
-          </nav>
-          <b-button variant="primary" block @click="hide">Close Sidebar</b-button>
-        </div>
-      </template>
-    </b-sidebar>
-  </div>
+<div>
+      <div class="sidenav">
+        <router-link to="/home/category/tablecategory">Category</router-link>
+        <router-link to="/home/stock/tabelstock">Stock</router-link>
+        <button @click.prevent="logout">Log Out</button>
+      </div>
+      <dir class="main">
+        <router-view></router-view>
+      </dir>
+    </div>
 </template>
 
 <script>
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 export default {
   name: 'Home',
+  methods: {
+    logout () {
+      localStorage.clear()
+      this.$router.push('/')
+    }
+  },
   created () {
     if (!localStorage.token) {
       this.$router.push('/')
@@ -38,4 +31,42 @@ export default {
 
 <style>
 
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
 </style>
