@@ -9,6 +9,7 @@ import addForm from '@/components/add_form.vue'
 import category from '@/components/category.vue'
 import addFormCategory from '@/components/add_form_category.vue'
 import categoryTable from '@/components/category_table.vue'
+import editForm from '@/components/editProduct.vue'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,10 @@ const routes = [
       {
         path: 'addform',
         component: addForm
+      },
+      {
+        path: 'editform/:id',
+        component: editForm
       }]
     },
     {

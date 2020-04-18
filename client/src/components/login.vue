@@ -52,7 +52,6 @@ export default {
   }
 }
 </script>
-import axios from '../axios'
 <style>
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,700");
 *, *:before, *:after {

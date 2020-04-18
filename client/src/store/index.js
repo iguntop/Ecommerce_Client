@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../axios'
-
+// import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     products: []
   },
+  // plugins: [createPersistedState()],
   mutations: {
     SET_PRODUCT (state, dataBaru) {
       state.products = dataBaru
@@ -23,7 +24,9 @@ export default new Vuex.Store({
         }
       })
         .then(result => {
-          const newproducts = result.data
+          console.log('actions fetch >>')
+          const newproducts = result.data.data
+          console.log('fetsch run', newproducts)
           context.commit('SET_PRODUCT', newproducts)
         })
         .catch(err => {

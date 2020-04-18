@@ -1,5 +1,8 @@
 <template>
 <form class="form-style-9">
+  <div class="form-group">
+<input type="hidden" id="nama" class="form-control" placeholder="Product Name" v-model="deploy.Id">
+</div>
 <div class="form-group">
 <label for="nama">Name</label>
 <input type="text" id="nama" class="form-control" placeholder="Product Name" v-model="deploy.name">
@@ -16,7 +19,7 @@
 <label for="stock">stock</label>
 <input type="number" id="stock" class="form-control" placeholder="stock" v-model="deploy.stock">
 </div>
-<b-button type="submit" variant="primary" @click.prevent="insertData">Submit</b-button>
+<b-button type="submit" variant="primary" @click.prevent="updateData">Submit</b-button>
  <b-button type="reset" variant="danger" @click.prevent="cancelbutton">Reset</b-button>
 </form>
 </template>
@@ -24,9 +27,10 @@
 <script>
 import axios from '@/axios'
 export default {
-  name: 'formAddItem',
+  name: 'formEditItem',
   data () {
     return {
+      id: '',
       deploy: {
         name: '',
         image_url: '',
@@ -37,10 +41,10 @@ export default {
     }
   },
   methods: {
-    insertData (deploy) {
+    updateData (deploy) {
       axios({
-        method: 'POST',
-        url: '/product',
+        method: 'PUT',
+        url: '/product/' + this.id,
         data: this.deploy,
         headers: {
           token: localStorage.token
@@ -48,7 +52,7 @@ export default {
       })
         .then(result => {
           this.$toasted.global.my_app_success({
-            message: 'Succes Add Item '
+            message: 'Succes Edit Item '
           })
           this.$store.dispatch('fetchProduct')
           this.$router.push('/home/stock/tabelstock')
@@ -63,6 +67,10 @@ export default {
     cancelbutton () {
       this.$router.push('/home/stock/tabelstock')
     }
+  },
+  created () {
+    this.id = this.$route.params.id
+    console.log(this.id)
   }
 }
 </script>
