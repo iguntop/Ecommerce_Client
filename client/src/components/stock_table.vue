@@ -3,6 +3,9 @@
  <div id="table-wrapper" class="ui container">
    <h2><strong>Stock Items </strong> </h2>
    <div><vs-button color="primary" type="filled" to="/home/stock/addform">add stock</vs-button></div>
+   <div v-show="loading" class="overlay flex flex-column items-center justify-center">
+    <spinner size="large" message="loading..."></spinner>
+  </div>
   <vuetable ref="vuetable"
      api-url="http://localhost:3000/product"
     :fields="fields"
@@ -16,11 +19,15 @@
   >
     <div slot="actions" slot-scope="props">
       <div class="table-button-container">
-          <button class="btn btn-warning btn-sm" @click="editRow(props.rowData)">
+          <button class="btn btn-warning btn-sm" @click.prevent="editRow(props.rowData)">
             <span class="glyphicon glyphicon-pencil"></span> Edit</button>&nbsp;&nbsp;
-          <button class="btn btn-danger btn-sm" @click="deleteRow(props.rowData)">
+          <button class="btn btn-danger btn-sm" @click.prevent="deleteRow(props.rowData)">
             <span class="glyphicon glyphicon-trash"></span> Delete</button>&nbsp;&nbsp;
       </div>
+    </div>
+
+      <div slot="image" slot-scope="props">
+        <img :src="props.rowData.image_url" alt="" width="50" height="50">
       </div>
     </vuetable>
     <vuetable-pagination ref="pagination"
@@ -35,17 +42,19 @@
 import { Vuetable, VuetablePagination } from 'vuetable-2'
 import axios from '../axios'
 import _ from 'lodash'
+import Spinner from 'vue-simple-spinner'
 // import { log } from 'util'
 // import { log } from 'util'
 export default {
   name: 'stacktable',
   components: {
-    Vuetable, VuetablePagination
+    Vuetable, VuetablePagination, Spinner
   },
   data () {
     return {
       dataitems: '',
       perPage: 10,
+      loading: true,
       fields: [
         {
           name: 'name',
@@ -53,12 +62,28 @@ export default {
           sortField: 'name'
         },
         {
-          name: 'image_url',
-          title: 'image_url',
-          sortField: 'image_url'
+          name: 'image',
+          title: 'Image',
+          titleClass: 'text-center',
+          dataClass: 'text-center',
+          width: '15% '
         },
-        'price', 'stock', 'createdAt', 'updatedAt',
-        { name: 'actions', title: 'Actions', titleClass: 'text-center', dataClass: 'text-center', width: '15% ' }
+        // {
+        //   name: 'image_url',
+        //   title: 'image_url',
+        //   sortField: 'image_url'
+        // },
+        'price',
+        'stock',
+        'createdAt',
+        'updatedAt',
+        {
+          name: 'actions',
+          title: 'Actions',
+          titleClass: 'text-center',
+          dataClass: 'text-center',
+          width: '15% '
+        }
       ],
       sortOrder: [
         { field: 'name', direction: 'asc' }
@@ -110,7 +135,6 @@ export default {
       this.$refs.vuetable.changePage(page)
     },
     editRow (rowData) {
-      alert('You clicked edit on' + JSON.stringify(rowData))
       this.$router.push('/home/stock/editform/' + rowData.id)
     },
     deleteRow (rowData) {
@@ -135,10 +159,10 @@ export default {
         })
     },
     onLoading () {
-      console.log('loading... show your spinner here')
+      this.loading = true
     },
     onLoaded () {
-      console.log('loaded! .. hide your spinner here')
+      this.loading = false
     },
     dataManager (sortOrder, pagination) {
       console.log('aaaaa', this.dataitems)
@@ -213,4 +237,24 @@ th.sortable {
   color: #ec971f;
 }
 
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>

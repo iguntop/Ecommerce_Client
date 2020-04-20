@@ -70,7 +70,21 @@ export default {
   },
   created () {
     this.id = this.$route.params.id
-    console.log(this.id)
+    axios({
+      method: 'GET',
+      url: '/product/' + this.id,
+      data: this.deploy,
+      headers: {
+        token: localStorage.token
+      }
+    })
+      .then(result => {
+        console.log('result edit', result)
+        this.deploy.name = result.data.data.name
+        this.deploy.image_url = result.data.data.image_url
+        this.deploy.price = result.data.data.price
+        this.deploy.stock = result.data.data.stock
+      })
   }
 }
 </script>
