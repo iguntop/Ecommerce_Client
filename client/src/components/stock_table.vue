@@ -156,6 +156,9 @@ export default {
         })
         .catch(err => {
           console.log(err)
+          this.$toasted.global.my_app_error({
+            message: err
+          })
         })
     },
     onLoading () {
